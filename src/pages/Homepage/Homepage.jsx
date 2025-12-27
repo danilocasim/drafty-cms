@@ -2,7 +2,7 @@ import { useFetchGet } from "../../hooks/useFetchGet";
 
 function Homepage() {
   const [data, loading, error] = useFetchGet(
-    "http://localhost:8000/blog/v1/post"
+    "http://localhost:8000/blog/v1/post/mine"
   );
 
   if (loading) return <h1>Loading...</h1>;
@@ -10,8 +10,8 @@ function Homepage() {
   return (
     <div>
       <h1>Home</h1>
-      {data &&
-        data.map((post, index) => {
+      {data.data &&
+        data.data.map((post, index) => {
           return <p key={index}>{post.content}</p>;
         })}
     </div>

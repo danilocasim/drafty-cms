@@ -9,16 +9,18 @@ export const useFetchGet = (url) => {
     async function getPosts() {
       setLoading(true);
       try {
+        const token = localStorage.getItem("token");
+
         const response = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
+            Authorization: token,
           },
           mode: "cors",
         });
 
         const data = await response.json();
-
-        setData(data.data);
+        setData(data);
       } catch (error) {
         setError(error);
       } finally {
