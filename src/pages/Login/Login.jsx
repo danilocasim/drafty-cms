@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+import { AuthContext } from "../../context";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { setUser } = useContext(AuthContext);
   function onChangeEmail(e) {
     setEmail(e.target.value);
   }
@@ -26,7 +30,10 @@ function Login() {
       })
       .then((data) => {
         localStorage.setItem("token", "Beaerer " + data.token);
+        setUser(data.user);
       });
+
+    navigate("/");
   }
 
   return (
