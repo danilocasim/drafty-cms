@@ -1,31 +1,50 @@
 import { Outlet, Link, useNavigate } from "react-router";
-import { useFetchGet } from "./hooks/useFetchGet";
 
 import { AuthContext } from "./context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [user, setUser] = useState(null);
-
+  const [user, setUser] = useState();
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [data] = useFetchGet("http://localhost:8000/blog/v1/auth");
+
+  useEffect(() => {
+    fetch("http://localhost:8000/blog/v1/auth", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      mode: "cors",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          navigate("/");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUser(data.user);
+      });
+  }, [token, navigate]);
+
   function logout() {
     localStorage.removeItem("token");
-    setUser(null);
+    console.log(user);
+    setUser("");
     navigate("/");
   }
   return (
-    <AuthContext value={{ user, setUser, logout }}>
+    <AuthContext value={{ setUser, logout }}>
       <div>
         <nav>
           <Link to='/'>Home</Link>
-          {!data.user && (
+          {!user && (
             <div>
               <Link to='/login'>Login</Link>
               <Link to='/signup'>Signup</Link>
             </div>
           )}
-          {data.user && <button onClick={logout}>Logout</button>}
+          {user && <button onClick={logout}>Logout</button>}
         </nav>
         <Outlet />
       </div>

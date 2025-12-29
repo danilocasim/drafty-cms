@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useFetchGet = (url) => {
+export const useFetchGet = (url, token) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -9,8 +9,6 @@ export const useFetchGet = (url) => {
     async function getPosts() {
       setLoading(true);
       try {
-        const token = localStorage.getItem("token");
-
         const response = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
@@ -19,6 +17,10 @@ export const useFetchGet = (url) => {
           mode: "cors",
         });
 
+        if (!response.ok) {
+          setData([]);
+          return;
+        }
         const data = await response.json();
         setData(data);
       } catch (error) {
@@ -29,7 +31,7 @@ export const useFetchGet = (url) => {
     }
 
     getPosts();
-  }, [url]);
+  }, [url, token]);
 
   return [data, loading, error];
 };

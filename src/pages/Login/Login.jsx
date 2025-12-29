@@ -30,10 +30,8 @@ function Login() {
       })
       .then((data) => {
         localStorage.setItem("token", "Beaerer " + data.token);
-        setUser(data.user);
+        navigate("/");
       });
-
-    navigate("/");
   }
 
   return (

@@ -1,8 +1,10 @@
 import { useFetchGet } from "../../hooks/useFetchGet";
 
 function Homepage() {
+  const token = localStorage.getItem("token");
   const [data, loading, error] = useFetchGet(
-    "http://localhost:8000/blog/v1/post/mine"
+    "http://localhost:8000/blog/v1/post/mine",
+    token
   );
 
   if (loading) return <h1>Loading...</h1>;
