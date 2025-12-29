@@ -17,15 +17,12 @@ function App() {
       mode: "cors",
     })
       .then((response) => {
-        if (!response.ok) {
-          navigate("/");
-        }
         return response.json();
       })
       .then((data) => {
         setUser(data.user);
       });
-  }, [token, navigate]);
+  }, [token]);
 
   function logout() {
     localStorage.removeItem("token");
