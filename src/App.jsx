@@ -26,7 +26,6 @@ function App() {
 
   function logout() {
     localStorage.removeItem("token");
-    console.log(user);
     setUser("");
     navigate("/");
   }
@@ -43,7 +42,7 @@ function App() {
           )}
           {user && <button onClick={logout}>Logout</button>}
         </nav>
-        <Outlet />
+        <Outlet context={[token]} />
       </div>
     </AuthContext>
   );
