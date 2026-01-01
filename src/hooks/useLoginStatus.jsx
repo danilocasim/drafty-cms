@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
-export const useFetchGet = (url, token) => {
-  const [data, setData] = useState([]);
+export const useLoginStatus = (token) => {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    async function getPosts() {
+    async function getUser() {
       setLoading(true);
       try {
-        const response = await fetch(url, {
+        const response = await fetch("http://localhost:8000/blog/v1/auth", {
           headers: {
             "Content-Type": "application/json",
             Authorization: token,
@@ -18,11 +18,12 @@ export const useFetchGet = (url, token) => {
         });
 
         if (!response.ok) {
-          setData([]);
+          setUser(null);
           return;
         }
+
         const data = await response.json();
-        setData(data);
+        setUser(data);
       } catch (error) {
         setError(error);
       } finally {
@@ -30,8 +31,8 @@ export const useFetchGet = (url, token) => {
       }
     }
 
-    getPosts();
-  }, [url, token]);
+    getUser();
+  }, [token]);
 
-  return [data, loading, error];
+  return [user, setUser];
 };

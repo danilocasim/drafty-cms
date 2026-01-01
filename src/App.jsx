@@ -1,36 +1,21 @@
 import { Outlet, Link, useNavigate } from "react-router";
 
 import { AuthContext } from "./context";
-import { useEffect, useState } from "react";
+import { useLoginStatus } from "./hooks/useLoginStatus";
 
 function App() {
-  const [user, setUser] = useState();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("http://localhost:8000/blog/v1/auth", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      mode: "cors",
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setUser(data.user);
-      });
-  }, [token]);
-
+  const [user, setUser] = useLoginStatus(token);
+  console.log(user);
   function logout() {
     localStorage.removeItem("token");
-    setUser("");
+    setUser(null);
     navigate("/");
   }
   return (
-    <AuthContext value={{ setUser, logout }}>
+    <AuthContext value={{ user, token, logout }}>
       <div>
         <nav>
           <Link to='/'>Home</Link>
@@ -40,9 +25,10 @@ function App() {
               <Link to='/signup'>Signup</Link>
             </div>
           )}
+          {user && <Link to='/addPost'>Post</Link>}
           {user && <button onClick={logout}>Logout</button>}
         </nav>
-        <Outlet context={[token]} />
+        <Outlet />
       </div>
     </AuthContext>
   );
