@@ -1,17 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context";
+import { Editor } from "@tinymce/tinymce-react";
 
 function AddPostpage() {
   const { token, user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+
+  const editorRef = useRef(null);
 
   function onChangeTitle(e) {
     setTitle(e.target.value);
-  }
-
-  function onChangeContent(e) {
-    setContent(e.target.value);
   }
 
   function addPost(e) {
@@ -25,14 +23,13 @@ function AddPostpage() {
       mode: "cors",
       body: JSON.stringify({
         title: title,
-        content: content,
+        content: editorRef.current.getContent(),
         userId: user.id,
       }),
     })
       .then((response) => response.json())
       .then((data) => console.log(data));
 
-    setContent("");
     setTitle("");
   }
   return (
@@ -45,14 +42,51 @@ function AddPostpage() {
         name='title'
         id='title'
       />
-
+      <br />
       <label htmlFor='content'>Content</label>
-      <input
+      {/* <input
         onChange={onChangeContent}
         value={content}
         type='text'
         name='content'
         id='content'
+      /> */}
+      <br />
+      <Editor
+        apiKey='ng2kh043o0lxb0npjv2syptz0ld38dj0y8ny4nlnlnwf0bp7'
+        onInit={(_evt, editor) => (editorRef.current = editor)}
+        initialValue='<p>This is the initial content of the editor.</p>'
+        init={{
+          height: 200,
+          menubar: false,
+          plugins: [
+            "advlist",
+            "autolink",
+            "lists",
+            "link",
+            "image",
+            "charmap",
+            "preview",
+            "anchor",
+            "searchreplace",
+            "visualblocks",
+            "code",
+            "fullscreen",
+            "insertdatetime",
+            "media",
+            "table",
+            "code",
+            "help",
+            "wordcount",
+          ],
+          toolbar:
+            "undo redo | blocks | " +
+            "bold italic forecolor | alignleft aligncenter " +
+            "alignright alignjustify | bullist numlist outdent indent | " +
+            "removeformat | help",
+          content_style:
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+        }}
       />
 
       <button onClick={addPost}>Add Post</button>

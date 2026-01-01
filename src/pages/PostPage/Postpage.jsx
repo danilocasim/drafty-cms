@@ -15,7 +15,7 @@ function Postpage() {
   return (
     <div>
       {post && <p>{post.title}</p>}
-      {post && <p>{post.content}</p>}
+      {post && <div dangerouslySetInnerHTML={{ __html: post.content }}></div>}
     </div>
   );
 }
