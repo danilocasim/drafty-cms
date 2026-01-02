@@ -5,10 +5,22 @@ import { Editor } from "@tinymce/tinymce-react";
 function AddPostpage() {
   const { token, user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
+  const [publish, setPublish] = useState(false);
 
   const editorRef = useRef(null);
+
   function onChangeTitle(e) {
     setTitle(e.target.value);
+  }
+  function togglePublish(e) {
+    const isPublish = e.target.value;
+    if (isPublish == "true") {
+      setPublish(true);
+    }
+    if (isPublish == "false") {
+      setPublish(false);
+    }
+    console.log(isPublish);
   }
 
   function addPost(e) {
@@ -24,6 +36,7 @@ function AddPostpage() {
         title: title,
         content: editorRef.current.getContent(),
         userId: user.id,
+        isPublish: publish,
       }),
     })
       .then((response) => response.json())
@@ -90,6 +103,28 @@ function AddPostpage() {
         }}
       />
 
+      <p>Publish this post?</p>
+      <input
+        onChange={togglePublish}
+        type='radio'
+        name='publish'
+        id='true'
+        value={true}
+        required
+      />
+      <label htmlFor='true'>Yes</label>
+
+      <input
+        onChange={togglePublish}
+        type='radio'
+        name='publish'
+        id='false'
+        value={false}
+        required
+        defaultChecked
+      />
+      <label htmlFor='false'>false</label>
+      <br />
       <button onClick={addPost}>Add Post</button>
     </form>
   );

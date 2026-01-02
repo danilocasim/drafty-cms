@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useMyAllPosts = (token) => {
+export const useMyAllPosts = (publishStatus, token) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -10,7 +10,7 @@ export const useMyAllPosts = (token) => {
       setLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:8000/blog/v1/post/mine",
+          "http://localhost:8000/blog/v1/post/" + publishStatus,
           {
             headers: {
               "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const useMyAllPosts = (token) => {
     }
 
     getUser();
-  }, [token]);
+  }, [publishStatus, token]);
 
   return [posts, loading, error];
 };
