@@ -34,7 +34,7 @@ export const useCurrentPost = (url, token) => {
     }
 
     getUser();
-  }, [url, token]);
+  }, [url, navigate, token]);
 
   return [post, loading, error];
 };

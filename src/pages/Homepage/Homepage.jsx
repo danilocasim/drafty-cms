@@ -5,20 +5,41 @@ import { Link } from "react-router";
 
 function Homepage() {
   const { token, user } = useContext(AuthContext);
+  const [deletedPost, setDeletedPost] = useState(null);
+
   const [publishStatus, setPublishStatus] = useState(true);
 
   const [publicPost, publicLoading, publicError] = useMyAllPosts(
     "public",
+    deletedPost,
     token
   );
 
   const [privatePost, privateLoading, privateError] = useMyAllPosts(
     "private",
+    deletedPost,
     token
   );
 
   function togglePublishStatus(status) {
     setPublishStatus(status);
+  }
+
+  function deletePost(postId) {
+    fetch("http://localhost:8000/blog/v1/post/" + postId, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      mode: "cors",
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setDeletedPost(data.data);
+      });
   }
 
   if (publicLoading || privateLoading) return <h1>Loading...</h1>;
@@ -35,8 +56,13 @@ function Homepage() {
         Hello, {user && user.username} {!user && "Guest"}
       </h1>
 
-      <button onClick={() => togglePublishStatus(true)}>Public</button>
-      <button onClick={() => togglePublishStatus(false)}>Private</button>
+      {user && (
+        <div>
+          {" "}
+          <button onClick={() => togglePublishStatus(true)}>Public</button>
+          <button onClick={() => togglePublishStatus(false)}>Private</button>
+        </div>
+      )}
 
       {publishStatus &&
         publicPost.data &&
@@ -45,6 +71,7 @@ function Homepage() {
           return (
             <div key={index}>
               <Link to={postLink}>{post.title}</Link>
+              <button onClick={() => deletePost(post.id)}>Delete</button>
             </div>
           );
         })}
@@ -56,6 +83,7 @@ function Homepage() {
           return (
             <div key={index}>
               <Link to={postLink}>{post.title}</Link>
+              <button onClick={() => deletePost(post.id)}>Delete</button>
             </div>
           );
         })}
