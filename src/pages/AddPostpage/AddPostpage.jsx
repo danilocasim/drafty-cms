@@ -7,7 +7,6 @@ function AddPostpage() {
   const [title, setTitle] = useState("");
 
   const editorRef = useRef(null);
-
   function onChangeTitle(e) {
     setTitle(e.target.value);
   }
@@ -31,6 +30,8 @@ function AddPostpage() {
       .then((data) => console.log(data));
 
     setTitle("");
+
+    editorRef.current.setContent("");
   }
   return (
     <form>
