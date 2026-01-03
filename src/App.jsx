@@ -8,7 +8,6 @@ function App() {
   const navigate = useNavigate();
 
   const [user, setUser] = useLoginStatus(token);
-  console.log(user);
   function logout() {
     localStorage.removeItem("token");
     setUser(null);
