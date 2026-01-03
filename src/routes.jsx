@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage/Homepage.jsx";
 import Errorpage from "./pages/Errorpage/Errorpage.jsx";
 import AddPostpage from "./pages/AddPostpage/AddPostpage.jsx";
 import Postpage from "./pages/PostPage/Postpage.jsx";
+import UpdatePostPage from "./pages/UpdatePostPage/UpdatePostPage.jsx";
 
 const routes = [
   {
@@ -17,6 +18,7 @@ const routes = [
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
       { path: "/post/:postId", element: <Postpage /> },
+      { path: "/updatePost/:postId", element: <UpdatePostPage /> },
     ],
   },
 ];

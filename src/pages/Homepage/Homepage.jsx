@@ -71,6 +71,7 @@ function Homepage() {
           return (
             <div key={index}>
               <Link to={postLink}>{post.title}</Link>
+              <Link to={"/updatePost/" + post.id}>Update</Link>
               <button onClick={() => deletePost(post.id)}>Delete</button>
             </div>
           );
@@ -83,6 +84,8 @@ function Homepage() {
           return (
             <div key={index}>
               <Link to={postLink}>{post.title}</Link>
+              <Link to={"/updatePost/" + post.id}>Update</Link>
+
               <button onClick={() => deletePost(post.id)}>Delete</button>
             </div>
           );
