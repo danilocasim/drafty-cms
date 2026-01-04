@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
+import { useNavigate } from "react-router";
 export const useLoginStatus = (token) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -18,6 +20,7 @@ export const useLoginStatus = (token) => {
         });
 
         if (!response.ok) {
+          navigate("/");
           setUser(null);
           return;
         }

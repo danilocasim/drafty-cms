@@ -19,11 +19,6 @@ export const useCurrentPost = (url, token) => {
           mode: "cors",
         });
 
-        if (!response.ok) {
-          setPost(null);
-          navigate("/");
-        }
-
         const data = await response.json();
         setPost(data.data);
       } catch (error) {
