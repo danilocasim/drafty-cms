@@ -14,7 +14,8 @@ function Login() {
     setPassword(e.target.value);
   }
 
-  function submitLogin() {
+  function submitLogin(e) {
+    e.preventDefault();
     fetch("http://localhost:8000/blog/v1/login", {
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +34,7 @@ function Login() {
   }
 
   return (
-    <div>
+    <form>
       <label htmlFor='email'>Email</label>
       <input id='email' name='email' onChange={onChangeEmail} type='email' />
 
@@ -48,7 +49,7 @@ function Login() {
       <button onClick={submitLogin} type='submit'>
         Submit
       </button>
-    </div>
+    </form>
   );
 }
 

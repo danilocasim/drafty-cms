@@ -58,13 +58,7 @@ function AddPostpage() {
       />
       <br />
       <label htmlFor='content'>Content</label>
-      {/* <input
-        onChange={onChangeContent}
-        value={content}
-        type='text'
-        name='content'
-        id='content'
-      /> */}
+
       <br />
       <Editor
         apiKey='ng2kh043o0lxb0npjv2syptz0ld38dj0y8ny4nlnlnwf0bp7'

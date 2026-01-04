@@ -1,0 +1,23 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 65px;
+}
+
+a *,
+.btnWrapper a {
+  text-decoration: none;
+  color: black;
+}
+
+.btnWrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.logout {
+  border: none;
+  background-color: none;
+}

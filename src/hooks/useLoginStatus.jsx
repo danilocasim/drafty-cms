@@ -35,7 +35,7 @@ export const useLoginStatus = (token) => {
     }
 
     getUser();
-  }, [token]);
+  }, [token, navigate]);
 
   return [user, setUser];
 };

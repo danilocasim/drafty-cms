@@ -1,7 +1,9 @@
-import { Outlet, Link, useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 
 import { AuthContext } from "./context";
 import { useLoginStatus } from "./hooks/useLoginStatus";
+import Navigation from "./components/Navigation/Navigation";
+import style from "./styles/index.module.css";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -15,18 +17,8 @@ function App() {
   }
   return (
     <AuthContext value={{ user, token, logout }}>
-      <div>
-        <nav>
-          <Link to='/'>Home</Link>
-          {!user && (
-            <div>
-              <Link to='/login'>Login</Link>
-              <Link to='/signup'>Signup</Link>
-            </div>
-          )}
-          {user && <Link to='/addPost'>Post</Link>}
-          {user && <button onClick={logout}>Logout</button>}
-        </nav>
+      <div className={style.container}>
+        <Navigation></Navigation>
         <Outlet />
       </div>
     </AuthContext>

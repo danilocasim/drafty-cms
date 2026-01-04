@@ -1,7 +1,8 @@
 import { useMyAllPosts } from "../../hooks/useMyAllPosts";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context";
-import { Link } from "react-router";
+import PostCard from "../../components/PostCard/PostCard";
+import style from "./Homepage.module.css";
 
 function Homepage() {
   const { token, user } = useContext(AuthContext);
@@ -65,56 +66,38 @@ function Homepage() {
       </h1>
     );
   return (
-    <div>
-      <h1>Home</h1>
-      <h1>
-        Hello, {user && user.username} {!user && "Guest"}
-      </h1>
-
+    <div className={style.container}>
       {user && (
-        <div>
-          <button onClick={() => togglePublishStatus(true)}>Public</button>
-          <button onClick={() => togglePublishStatus(false)}>Private</button>
+        <div className={style.btnWrapper}>
+          <button
+            className={publishStatus && style.darkBtn}
+            onClick={() => togglePublishStatus(true)}
+          >
+            Public
+          </button>
+          <button
+            className={!publishStatus && style.darkBtn}
+            onClick={() => togglePublishStatus(false)}
+          >
+            Private
+          </button>
         </div>
       )}
+      {publishStatus && (
+        <PostCard
+          posts={publicPost}
+          changePublishStatus={changePublishStatus}
+          deletePost={deletePost}
+        ></PostCard>
+      )}
 
-      {publishStatus &&
-        publicPost.data &&
-        publicPost.data.map((post, index) => {
-          const postLink = "/post/" + post.id;
-          const isPublish = post.isPublish ? "Unpublish" : "Publish";
-          return (
-            <div key={index}>
-              <Link to={postLink}>{post.title}</Link>
-
-              <button onClick={() => changePublishStatus(post.id)}>
-                {isPublish}
-              </button>
-              <Link to={"/updatePost/" + post.id}>Update</Link>
-              <button onClick={() => deletePost(post.id)}>Delete</button>
-            </div>
-          );
-        })}
-
-      {!publishStatus &&
-        privatePost.data &&
-        privatePost.data.map((post, index) => {
-          const postLink = "/post/" + post.id;
-          const isPublish = post.isPublish ? "Unpublish" : "Publish";
-
-          return (
-            <div key={index}>
-              <Link to={postLink}>{post.title}</Link>
-              <button onClick={() => changePublishStatus(post.id)}>
-                {isPublish}
-              </button>
-
-              <Link to={"/updatePost/" + post.id}>Update</Link>
-
-              <button onClick={() => deletePost(post.id)}>Delete</button>
-            </div>
-          );
-        })}
+      {!publishStatus && (
+        <PostCard
+          posts={privatePost}
+          changePublishStatus={changePublishStatus}
+          deletePost={deletePost}
+        ></PostCard>
+      )}
     </div>
   );
 }
