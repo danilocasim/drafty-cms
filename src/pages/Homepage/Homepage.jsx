@@ -5,24 +5,39 @@ import { Link } from "react-router";
 
 function Homepage() {
   const { token, user } = useContext(AuthContext);
-  const [deletedPost, setDeletedPost] = useState(null);
+  const [modifiedPost, setModifiedPost] = useState(null);
 
   const [publishStatus, setPublishStatus] = useState(true);
 
   const [publicPost, publicLoading, publicError] = useMyAllPosts(
     "public",
-    deletedPost,
+    modifiedPost,
     token
   );
 
   const [privatePost, privateLoading, privateError] = useMyAllPosts(
     "private",
-    deletedPost,
+    modifiedPost,
     token
   );
 
   function togglePublishStatus(status) {
     setPublishStatus(status);
+  }
+
+  function changePublishStatus(postId) {
+    fetch(`http://localhost:8000/blog/v1/post/${postId}/publish`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      method: "PUT",
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setModifiedPost(data);
+      });
   }
 
   function deletePost(postId) {
@@ -38,7 +53,7 @@ function Homepage() {
         return response.json();
       })
       .then((data) => {
-        setDeletedPost(data.data);
+        setModifiedPost(data.data);
       });
   }
 
@@ -58,7 +73,6 @@ function Homepage() {
 
       {user && (
         <div>
-          {" "}
           <button onClick={() => togglePublishStatus(true)}>Public</button>
           <button onClick={() => togglePublishStatus(false)}>Private</button>
         </div>
@@ -68,9 +82,14 @@ function Homepage() {
         publicPost.data &&
         publicPost.data.map((post, index) => {
           const postLink = "/post/" + post.id;
+          const isPublish = post.isPublish ? "Unpublish" : "Publish";
           return (
             <div key={index}>
               <Link to={postLink}>{post.title}</Link>
+
+              <button onClick={() => changePublishStatus(post.id)}>
+                {isPublish}
+              </button>
               <Link to={"/updatePost/" + post.id}>Update</Link>
               <button onClick={() => deletePost(post.id)}>Delete</button>
             </div>
@@ -81,9 +100,15 @@ function Homepage() {
         privatePost.data &&
         privatePost.data.map((post, index) => {
           const postLink = "/post/" + post.id;
+          const isPublish = post.isPublish ? "Unpublish" : "Publish";
+
           return (
             <div key={index}>
               <Link to={postLink}>{post.title}</Link>
+              <button onClick={() => changePublishStatus(post.id)}>
+                {isPublish}
+              </button>
+
               <Link to={"/updatePost/" + post.id}>Update</Link>
 
               <button onClick={() => deletePost(post.id)}>Delete</button>

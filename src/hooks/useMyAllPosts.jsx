@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useMyAllPosts = (publishStatus, deletedPost, token) => {
+export const useMyAllPosts = (publishStatus, modifiedPost, token) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +35,7 @@ export const useMyAllPosts = (publishStatus, deletedPost, token) => {
     }
 
     getUser();
-  }, [publishStatus, deletedPost, token]);
+  }, [publishStatus, modifiedPost, token]);
 
   return [posts, loading, error];
 };
