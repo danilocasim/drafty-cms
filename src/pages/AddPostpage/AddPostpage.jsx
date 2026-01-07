@@ -8,6 +8,8 @@ import style from "./AddPostpage.module.css";
 function AddPostpage() {
   const { token, user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   const [publish, setPublish] = useState(false);
 
   const editorRef = useRef(null);
@@ -24,6 +26,7 @@ function AddPostpage() {
       body: JSON.stringify({
         title: title,
         content: editorRef.current.getContent(),
+        description: description,
         userId: user.id,
         isPublish: publish,
       }),
@@ -40,6 +43,10 @@ function AddPostpage() {
       <div className={style.wrapper}>
         <label htmlFor='title'>Title</label>
         <Input setState={setTitle} state={title}></Input>
+      </div>
+      <div className={style.wrapper}>
+        <label htmlFor='description'>Description</label>
+        <Input setState={setDescription} state={description}></Input>
       </div>
       <div className={style.wrapper}>
         <label htmlFor='content'>Content</label>

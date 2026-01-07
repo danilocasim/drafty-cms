@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useCurrentPost } from "../../hooks/useCurrentPost";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context";
 import style from "./Postpage.module.css";
 
@@ -14,6 +14,7 @@ function Postpage() {
     `http://localhost:8000/blog/v1/post/${postId}`,
     token
   );
+  console.log(post);
 
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
@@ -100,79 +101,77 @@ function Postpage() {
   }
 
   return (
-    <div className={style.postWrapper}>
-      <div className={style.postHeader}>
-        {post && <h1>{post.title}</h1>}
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet
-          consectetur adipiscing elit quisque faucibus.
-        </p>
-        <p>{post && post.createdAt}</p>
-        <p> {user && "Authored By: " + user.username}</p>
-      </div>
-      <div>
-        {post && <div dangerouslySetInnerHTML={{ __html: post.content }}></div>}
-      </div>
-      <div className={style.commentsWrapper}>
-        <h3>Responses</h3>
-        <div>
-          <input
-            type='text'
-            name='content'
-            value={content}
-            id='content'
-            placeholder='What are your thoughts?'
-            onChange={onChangeContent}
-          />
-          <button onClick={addComment}>Submit</button>
-        </div>
-        <div className={style.comments}>
-          {comments &&
-            comments.map((comment) => {
-              return (
-                <div key={comment.id}>
-                  <p>
-                    {comment.User.username}{" "}
-                    {post.userId == user.id && <i>Author</i>}
-                  </p>
-                  {!editting && (
-                    <div>
-                      <p> {comment.content}</p>
-                    </div>
-                  )}
-                  {editting == comment.id && (
-                    <div>
-                      <input
-                        value={updatedComment}
-                        type='text'
-                        name='content'
-                        id='content'
-                        onChange={onChangeUpdateComment}
-                      />
-                      <button onClick={() => editComment(comment.id)}>
-                        Update
-                      </button>
-                    </div>
-                  )}
-                  <button onClick={() => deleteComment(comment.id)}>
-                    Delete
-                  </button>
-                  {comment.userId == user.id && (
-                    <button
-                      onClick={() =>
-                        toggleEditComment(comment.id, comment.content)
-                      }
-                    >
-                      {comment.id === editting && "Close"}
-                      {comment.id !== editting && "Edit"}
+    <Fragment>
+      {post && (
+        <div className={style.postWrapper}>
+          <div className={style.postHeader}>
+            <h1>{post.title}</h1>
+            <p>{post.description}</p>
+            <p>{post.createdAt}</p>
+            <p> {"Authored By: " + user.username}</p>
+          </div>
+          <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
+          <div className={style.commentsWrapper}>
+            <h3>Responses</h3>
+            <div>
+              <input
+                type='text'
+                name='content'
+                value={content}
+                id='content'
+                placeholder='What are your thoughts?'
+                onChange={onChangeContent}
+              />
+              <button onClick={addComment}>Submit</button>
+            </div>
+            <div className={style.comments}>
+              {comments.map((comment) => {
+                return (
+                  <div key={comment.id}>
+                    <p>
+                      {comment.User.username}{" "}
+                      {post.userId == user.id && <i>Author</i>}
+                    </p>
+                    {!editting && (
+                      <div>
+                        <p> {comment.content}</p>
+                      </div>
+                    )}
+                    {editting == comment.id && (
+                      <div>
+                        <input
+                          value={updatedComment}
+                          type='text'
+                          name='content'
+                          id='content'
+                          onChange={onChangeUpdateComment}
+                        />
+                        <button onClick={() => editComment(comment.id)}>
+                          Update
+                        </button>
+                      </div>
+                    )}
+                    <button onClick={() => deleteComment(comment.id)}>
+                      Delete
                     </button>
-                  )}
-                </div>
-              );
-            })}
+                    {comment.userId == user.id && (
+                      <button
+                        onClick={() =>
+                          toggleEditComment(comment.id, comment.content)
+                        }
+                      >
+                        {comment.id === editting && "Close"}
+                        {comment.id !== editting && "Edit"}
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </Fragment>
   );
 }
 
