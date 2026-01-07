@@ -14,7 +14,6 @@ function Postpage() {
     `http://localhost:8000/blog/v1/post/${postId}`,
     token
   );
-  console.log(post);
 
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
@@ -45,7 +44,6 @@ function Postpage() {
       .then((response) => response.json())
       .then((data) => {
         setComments(data.data);
-        console.log(data.data);
       });
   }, [postId, token, recentComment]);
 
@@ -108,7 +106,7 @@ function Postpage() {
             <h1>{post.title}</h1>
             <p>{post.description}</p>
             <p>{post.createdAt}</p>
-            <p> {"Authored By: " + user.username}</p>
+            <p> {user && "Authored By: " + user.username}</p>
           </div>
           <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
           <div className={style.commentsWrapper}>
@@ -130,7 +128,7 @@ function Postpage() {
                   <div key={comment.id}>
                     <p>
                       {comment.User.username}{" "}
-                      {post.userId == user.id && <i>Author</i>}
+                      {post.userId == comment.userId && <i>Author</i>}
                     </p>
                     {!editting && (
                       <div>
