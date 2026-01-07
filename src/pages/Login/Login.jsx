@@ -14,7 +14,7 @@ function Login() {
     setPassword(e.target.value);
   }
 
-  function submitLogin(e) {
+  function login(e) {
     e.preventDefault();
     fetch("http://localhost:8000/blog/v1/login", {
       headers: {
@@ -46,7 +46,7 @@ function Login() {
         type='password'
       />
 
-      <button onClick={submitLogin} type='submit'>
+      <button onClick={login} type='submit'>
         Submit
       </button>
     </form>

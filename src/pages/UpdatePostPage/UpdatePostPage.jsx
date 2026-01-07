@@ -1,8 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context";
-import { Editor } from "@tinymce/tinymce-react";
+import ContentEditor from "../../components/ContentEditor/ContentEditor";
 import { useNavigate, useParams } from "react-router";
-
+import RadioBtn from "../../components/RadioBtn/RadioBtn";
+import Input from "../../components/Input/Input";
 function UpdatePostPage() {
   const navigate = useNavigate();
   const { token, user } = useContext(AuthContext);
@@ -32,20 +33,6 @@ function UpdatePostPage() {
       });
   }, [postId, token]);
 
-  function onChangeTitle(e) {
-    setTitle(e.target.value);
-  }
-  function togglePublish(e) {
-    const isPublish = e.target.value;
-    if (isPublish == "true") {
-      setPublish(true);
-    }
-    if (isPublish == "false") {
-      setPublish(false);
-    }
-    console.log(isPublish);
-  }
-
   function updatePost(e) {
     e.preventDefault();
     console.log(publish);
@@ -74,75 +61,18 @@ function UpdatePostPage() {
   return (
     <form>
       <label htmlFor='title'>Title</label>
-      <input
-        onChange={onChangeTitle}
-        value={title}
-        type='text'
-        name='title'
-        id='title'
-      />
+      <Input setState={setTitle} state={title}></Input>
       <br />
       <label htmlFor='content'>Content</label>
 
       <br />
-      <Editor
-        apiKey='ng2kh043o0lxb0npjv2syptz0ld38dj0y8ny4nlnlnwf0bp7'
-        onInit={(_evt, editor) => (editorRef.current = editor)}
-        initialValue={content}
-        init={{
-          height: 200,
-          menubar: false,
-          plugins: [
-            "advlist",
-            "autolink",
-            "lists",
-            "link",
-            "image",
-            "charmap",
-            "preview",
-            "anchor",
-            "searchreplace",
-            "visualblocks",
-            "code",
-            "fullscreen",
-            "insertdatetime",
-            "media",
-            "table",
-            "code",
-            "help",
-            "wordcount",
-          ],
-          toolbar:
-            "undo redo | blocks | " +
-            "bold italic forecolor | alignleft aligncenter " +
-            "alignright alignjustify | bullist numlist outdent indent | " +
-            "removeformat | help",
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-        }}
-      />
+      <ContentEditor content={content} editorRef={editorRef}></ContentEditor>
 
       <p>Publish this post?</p>
-      <input
-        onChange={togglePublish}
-        type='radio'
-        name='publish'
-        id='true'
-        value={true}
-        required
-        checked={publish == true}
-      />
+      <RadioBtn setState={setPublish} state={publish} value={true}></RadioBtn>
       <label htmlFor='true'>Yes</label>
+      <RadioBtn setState={setPublish} state={publish} value={false}></RadioBtn>
 
-      <input
-        onChange={togglePublish}
-        type='radio'
-        name='publish'
-        id='false'
-        value={false}
-        required
-        checked={publish == false}
-      />
       <label htmlFor='false'>false</label>
       <br />
       <button onClick={updatePost}>Update Post</button>

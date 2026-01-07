@@ -16,14 +16,15 @@ function Navigation() {
           <Link to='/signup'>Signup</Link>
         </div>
       )}
-      <div className={style.btnWrapper}>
-        {user && <Link to='/addPost'>Add Post</Link>}
-        {user && (
+      {user && (
+        <div className={style.btnWrapper}>
+          <Link to='/addPost'>Add Post</Link>
+
           <button className={style.logout} onClick={logout}>
             Logout
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 }

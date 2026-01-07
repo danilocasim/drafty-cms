@@ -61,6 +61,7 @@ function Postpage() {
       .then((response) => response.json())
       .then((data) => {
         setRecentComment(data.data);
+        setContent("");
       });
   }
 
@@ -118,6 +119,7 @@ function Postpage() {
           <input
             type='text'
             name='content'
+            value={content}
             id='content'
             placeholder='What are your thoughts?'
             onChange={onChangeContent}
