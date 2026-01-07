@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-
+import style from "./Login.module.css";
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -35,16 +35,20 @@ function Login() {
 
   return (
     <form>
-      <label htmlFor='email'>Email</label>
-      <input id='email' name='email' onChange={onChangeEmail} type='email' />
+      <div className={style.wrapper}>
+        <label htmlFor='email'>Email</label>
+        <input id='email' name='email' onChange={onChangeEmail} type='email' />
+      </div>
 
-      <label htmlFor='password'>Password</label>
-      <input
-        id='password'
-        name='password'
-        onChange={onChangePassword}
-        type='password'
-      />
+      <div className={style.wrapper}>
+        <label htmlFor='password'>Password</label>
+        <input
+          id='password'
+          name='password'
+          onChange={onChangePassword}
+          type='password'
+        />
+      </div>
 
       <button onClick={login} type='submit'>
         Submit

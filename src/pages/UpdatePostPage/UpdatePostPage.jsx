@@ -4,6 +4,8 @@ import ContentEditor from "../../components/ContentEditor/ContentEditor";
 import { useNavigate, useParams } from "react-router";
 import RadioBtn from "../../components/RadioBtn/RadioBtn";
 import Input from "../../components/Input/Input";
+import style from "./UpdatePostPage.module.css";
+
 function UpdatePostPage() {
   const navigate = useNavigate();
   const { token, user } = useContext(AuthContext);
@@ -35,7 +37,6 @@ function UpdatePostPage() {
 
   function updatePost(e) {
     e.preventDefault();
-    console.log(publish);
     fetch("http://localhost:8000/blog/v1/post/" + postId, {
       headers: {
         "Content-Type": "application/json",
@@ -60,21 +61,34 @@ function UpdatePostPage() {
   }
   return (
     <form>
-      <label htmlFor='title'>Title</label>
-      <Input setState={setTitle} state={title}></Input>
-      <br />
-      <label htmlFor='content'>Content</label>
+      <div className={style.wrapper}>
+        <label htmlFor='title'>Title</label>
+        <Input setState={setTitle} state={title}></Input>
+      </div>
+      <div className={style.wrapper}>
+        <label htmlFor='content'>Content</label>
+        <ContentEditor content={content} editorRef={editorRef}></ContentEditor>
+      </div>
 
-      <br />
-      <ContentEditor content={content} editorRef={editorRef}></ContentEditor>
-
-      <p>Publish this post?</p>
-      <RadioBtn setState={setPublish} state={publish} value={true}></RadioBtn>
-      <label htmlFor='true'>Yes</label>
-      <RadioBtn setState={setPublish} state={publish} value={false}></RadioBtn>
-
-      <label htmlFor='false'>false</label>
-      <br />
+      <div className={style.wrapper}>
+        <p>Publish this post?</p>
+        <div>
+          <RadioBtn
+            setState={setPublish}
+            state={publish}
+            value={true}
+          ></RadioBtn>
+          <label htmlFor='true'>Yes</label>
+        </div>
+        <div>
+          <RadioBtn
+            setState={setPublish}
+            state={publish}
+            value={false}
+          ></RadioBtn>
+          <label htmlFor='false'>false</label>
+        </div>
+      </div>
       <button onClick={updatePost}>Update Post</button>
     </form>
   );

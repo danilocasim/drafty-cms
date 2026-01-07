@@ -61,3 +61,10 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  display: block;
+  width: 100%;
+}

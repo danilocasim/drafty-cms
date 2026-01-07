@@ -3,6 +3,7 @@ import { AuthContext } from "../../context";
 import Input from "../../components/Input/Input";
 import RadioBtn from "../../components/RadioBtn/RadioBtn";
 import ContentEditor from "../../components/ContentEditor/ContentEditor";
+import style from "./AddPostpage.module.css";
 
 function AddPostpage() {
   const { token, user } = useContext(AuthContext);
@@ -36,26 +37,37 @@ function AddPostpage() {
   }
   return (
     <form>
-      <label htmlFor='title'>Title</label>
-      <Input setState={setTitle} state={title}></Input>
-      <br />
-      <label htmlFor='content'>Content</label>
+      <div className={style.wrapper}>
+        <label htmlFor='title'>Title</label>
+        <Input setState={setTitle} state={title}></Input>
+      </div>
+      <div className={style.wrapper}>
+        <label htmlFor='content'>Content</label>
+        <ContentEditor
+          editorRef={editorRef}
+          content={"<p>This is the initial value</p>"}
+        ></ContentEditor>
+      </div>
 
-      <br />
-      <ContentEditor
-        editorRef={editorRef}
-        content={"<p>This is the initial value</p>"}
-      ></ContentEditor>
-
-      <p>Publish this post?</p>
-      <RadioBtn setState={setPublish} state={publish} value={true}></RadioBtn>
-
-      <label htmlFor='true'>Yes</label>
-
-      <RadioBtn setState={setPublish} state={publish} value={false}></RadioBtn>
-
-      <label htmlFor='false'>false</label>
-      <br />
+      <div className={style.wrapper}>
+        <p>Publish this post?</p>
+        <div>
+          <RadioBtn
+            setState={setPublish}
+            state={publish}
+            value={true}
+          ></RadioBtn>
+          <label htmlFor='true'>Yes</label>
+        </div>
+        <div>
+          <RadioBtn
+            setState={setPublish}
+            state={publish}
+            value={false}
+          ></RadioBtn>
+          <label htmlFor='false'>false</label>
+        </div>
+      </div>
       <button onClick={addPost}>Add Post</button>
     </form>
   );

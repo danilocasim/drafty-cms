@@ -15,7 +15,6 @@ function RadioBtn({ setState, state, value }) {
       onChange={togglePublish}
       type='radio'
       name='publish'
-      id={value}
       value={value}
       required
       checked={state == value}

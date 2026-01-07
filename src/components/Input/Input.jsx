@@ -1,4 +1,4 @@
-function Input({ setState, state }) {
+function Input({ setState, state, value = "title", type = "text" }) {
   function onChangeTitle(e) {
     setState(e.target.value);
   }
@@ -6,9 +6,9 @@ function Input({ setState, state }) {
     <input
       onChange={onChangeTitle}
       value={state}
-      type='text'
-      name='title'
-      id='title'
+      type={type}
+      name={value}
+      id={value}
     />
   );
 }

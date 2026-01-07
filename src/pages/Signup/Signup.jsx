@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import style from "./Signup.module.css";
+import Input from "../../components/Input/Input";
 
 function Signup() {
   const navigate = useNavigate();
@@ -7,18 +9,6 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  function onChangeUsername(e) {
-    setUsername(e.target.value);
-  }
-
-  function onChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function onChangePassword(e) {
-    setPassword(e.target.value);
-  }
 
   function addUser(e) {
     e.preventDefault();
@@ -47,27 +37,32 @@ function Signup() {
 
   return (
     <form>
-      <div>
+      <div className={style.wrapper}>
         <label htmlFor='username'>Username</label>
-        <input
-          id='username'
-          name='username'
-          onChange={onChangeUsername}
-          type='text'
-        />
-        <label htmlFor='email'>Email</label>
-        <input id='email' name='email' onChange={onChangeEmail} type='email' />
-        <label htmlFor='password'>Password</label>
-        <input
-          id='password'
-          name='password'
-          onChange={onChangePassword}
-          type='password'
-        />
-        <button onClick={addUser} type='submit'>
-          Submit
-        </button>
+        <Input setState={setUsername} state={username} value='username'></Input>
       </div>
+      <div className={style.wrapper}>
+        <label htmlFor='email'>Email</label>
+
+        <Input
+          setState={setEmail}
+          state={email}
+          value='email'
+          type='email'
+        ></Input>
+      </div>
+      <div className={style.wrapper}>
+        <label htmlFor='password'>Password</label>
+        <Input
+          setState={setPassword}
+          state={password}
+          value='password'
+          type='password'
+        ></Input>
+      </div>
+      <button onClick={addUser} type='submit'>
+        Submit
+      </button>
     </form>
   );
 }

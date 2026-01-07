@@ -70,13 +70,13 @@ function Homepage() {
       {user && (
         <div className={style.btnWrapper}>
           <button
-            className={publishStatus && style.darkBtn}
+            className={publishStatus ? style.darkBtn : ""}
             onClick={() => togglePublishStatus(true)}
           >
             Public
           </button>
           <button
-            className={!publishStatus && style.darkBtn}
+            className={!publishStatus ? style.darkBtn : ""}
             onClick={() => togglePublishStatus(false)}
           >
             Private
