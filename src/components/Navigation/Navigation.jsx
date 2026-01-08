@@ -4,7 +4,7 @@ import { AuthContext } from "../../context";
 import style from "./Navigation.module.css";
 
 function Navigation() {
-  const { user, token, logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   return (
     <nav className={style.nav}>
       <h1 className={style.logo}>
@@ -19,13 +19,12 @@ function Navigation() {
           </button>
         </div>
       )}
-      {!user ||
-        (!token && (
-          <div className={style.btnWrapper}>
-            <Link to='/login'>Login</Link>
-            <Link to='/signup'>Signup</Link>
-          </div>
-        ))}
+      {!user && (
+        <div className={style.btnWrapper}>
+          <Link to='/login'>Login</Link>
+          <Link to='/signup'>Signup</Link>
+        </div>
+      )}
     </nav>
   );
 }
