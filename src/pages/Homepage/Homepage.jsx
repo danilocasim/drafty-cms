@@ -3,9 +3,11 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context";
 import PostCard from "../../components/PostCard/PostCard";
 import style from "./Homepage.module.css";
+import { useLoginStatus } from "../../hooks/useLoginStatus";
 
 function Homepage() {
-  const { token, user } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
+  const [user] = useLoginStatus(token);
   const [modifiedPost, setModifiedPost] = useState(null);
 
   const [publishStatus, setPublishStatus] = useState(true);

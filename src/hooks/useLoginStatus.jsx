@@ -20,7 +20,7 @@ export const useLoginStatus = (token) => {
         });
 
         if (!response.ok) {
-          navigate("/");
+          navigate("/login");
           setUser(null);
           return;
         }
@@ -37,5 +37,5 @@ export const useLoginStatus = (token) => {
     getUser();
   }, [token, navigate]);
 
-  return [user, setUser];
+  return [user, setUser, loading, error];
 };
