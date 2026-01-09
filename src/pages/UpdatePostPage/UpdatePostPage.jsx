@@ -1,10 +1,11 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, Fragment } from "react";
 import { AuthContext } from "../../context";
 import ContentEditor from "../../components/ContentEditor/ContentEditor";
 import { useNavigate, useParams } from "react-router";
 import RadioBtn from "../../components/RadioBtn/RadioBtn";
 import Input from "../../components/Input/Input";
 import style from "./UpdatePostPage.module.css";
+import { useGetCategories } from "../../hooks/useGetCategories";
 
 function UpdatePostPage() {
   const navigate = useNavigate();
@@ -17,6 +18,11 @@ function UpdatePostPage() {
   const editorRef = useRef(null);
 
   const { postId } = useParams();
+
+  const [category, setCategory] = useState("");
+  const [isAddNewCategory, setIsAddNewCategory] = useState(false);
+
+  const [categories] = useGetCategories();
 
   useEffect(() => {
     fetch(`http://localhost:8000/blog/v1/post/${postId}`, {
@@ -34,8 +40,17 @@ function UpdatePostPage() {
         setDescription(post.description);
         setTitle(post.title);
         setContent(post.content);
+        setCategory(post.category.name);
       });
   }, [postId, token]);
+
+  function onChangeCategory(e) {
+    setCategory(e.target.value);
+  }
+
+  function switchExistingOrAddNew() {
+    setIsAddNewCategory(!isAddNewCategory);
+  }
 
   function updatePost(e) {
     e.preventDefault();
@@ -52,6 +67,7 @@ function UpdatePostPage() {
         description: description,
         userId: user.id,
         isPublish: publish,
+        categoryName: category,
       }),
     })
       .then((response) => response.json())
@@ -59,6 +75,7 @@ function UpdatePostPage() {
 
     setTitle("");
     setDescription("");
+    setCategory("");
 
     editorRef.current.setContent("");
     navigate("/");
@@ -72,6 +89,55 @@ function UpdatePostPage() {
       <div className={style.wrapper}>
         <label htmlFor='description'>Description</label>
         <Input setState={setDescription} state={description}></Input>
+      </div>
+
+      <div className={style.wrapper}>
+        <button type='button' onClick={switchExistingOrAddNew}>
+          {!isAddNewCategory
+            ? "Add new category"
+            : "Select existing categories"}
+        </button>
+        {!isAddNewCategory && (
+          <Fragment>
+            <label htmlFor='category'>Choose a category:</label>
+            <select
+              onChange={onChangeCategory}
+              name='category'
+              id='category'
+              required
+            >
+              <option disabled hidden>
+                Select a category
+              </option>
+              {categories &&
+                categories.map((cat) => {
+                  if (category == cat.name)
+                    return (
+                      <option selected key={cat.id} value={cat.name}>
+                        {cat.name}
+                      </option>
+                    );
+                  return (
+                    <option key={cat.id} value={cat.name}>
+                      {cat.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </Fragment>
+        )}
+
+        {isAddNewCategory && (
+          <Fragment>
+            <label htmlFor='category'>Input new category</label>
+            <input
+              type='text'
+              value={category}
+              onChange={onChangeCategory}
+              name='category'
+            />
+          </Fragment>
+        )}
       </div>
       <div className={style.wrapper}>
         <label htmlFor='content'>Content</label>

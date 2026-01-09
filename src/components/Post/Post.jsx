@@ -8,6 +8,7 @@ function Post({ post, user }) {
         <p>{post.description}</p>
         <p>{post.createdAt}</p>
         <p> {user && "Authored By: " + user.username}</p>
+        <p>Category: {post.category.name}</p>
       </div>
       <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
     </div>

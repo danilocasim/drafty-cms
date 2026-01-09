@@ -12,6 +12,7 @@ function PostCard({ posts, changePublishStatus, deletePost }) {
               <Link to={postLink}>
                 <h2>{post.title}</h2>
                 <p className={style.descriptions}>{post.description}</p>
+                <p>Category: {post.category.name}</p>
               </Link>
               <div className={style.btnWrapper}>
                 <button onClick={() => changePublishStatus(post.id)}>
