@@ -62,9 +62,15 @@ h6 {
   isolation: isolate;
 }
 
+label {
+  display: block;
+}
+
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+select {
   display: block;
   width: 100%;
+  height: 2rem;
 }
