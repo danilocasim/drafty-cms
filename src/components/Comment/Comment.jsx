@@ -9,6 +9,7 @@ function Comment({
   setDeletedComment,
 }) {
   const { token, user } = useContext(AuthContext);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [editing, setEditing] = useState(null);
 
@@ -24,7 +25,7 @@ function Comment({
   }
 
   function deleteComment(id) {
-    fetch(`http://localhost:8000/blog/v1/post/${post.id}/comment/${id}`, {
+    fetch(`${API_URL}/post/${post.id}/comment/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
@@ -39,7 +40,7 @@ function Comment({
   }
 
   function editComment(id) {
-    fetch(`http://localhost:8000/blog/v1/post/${post.id}/comment/${id}`, {
+    fetch(`${API_URL}/post/${post.id}/comment/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
@@ -65,7 +66,7 @@ function Comment({
           <p> {comment.content}</p>
         </div>
       )}
-      {editing == comment.id && (
+      {editing === comment.id && (
         <div>
           <input
             value={updatedComment}

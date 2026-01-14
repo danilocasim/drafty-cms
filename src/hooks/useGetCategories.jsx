@@ -4,20 +4,18 @@ export const useGetCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     async function getCategories() {
       setLoading(true);
       try {
-        const response = await fetch(
-          `http://localhost:8000/blog/v1/category/`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            mode: "cors",
-          }
-        );
+        const response = await fetch(`${API_URL}/category/`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "cors",
+        });
 
         if (!response.ok) {
           setCategories([]);

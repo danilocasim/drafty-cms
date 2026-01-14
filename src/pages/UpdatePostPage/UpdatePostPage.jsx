@@ -18,6 +18,7 @@ function UpdatePostPage() {
   const editorRef = useRef(null);
 
   const { postId } = useParams();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [category, setCategory] = useState("");
   const [isAddNewCategory, setIsAddNewCategory] = useState(false);
@@ -25,7 +26,7 @@ function UpdatePostPage() {
   const [categories] = useGetCategories();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/blog/v1/post/${postId}`, {
+    fetch(`${API_URL}/post/${postId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
@@ -54,7 +55,7 @@ function UpdatePostPage() {
 
   function updatePost(e) {
     e.preventDefault();
-    fetch("http://localhost:8000/blog/v1/post/" + postId, {
+    fetch(`${API_URL}/post/` + postId, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
@@ -105,18 +106,13 @@ function UpdatePostPage() {
               name='category'
               id='category'
               required
+              value={category}
             >
               <option disabled hidden>
                 Select a category
               </option>
               {categories &&
                 categories.map((cat) => {
-                  if (category == cat.name)
-                    return (
-                      <option selected key={cat.id} value={cat.name}>
-                        {cat.name}
-                      </option>
-                    );
                   return (
                     <option key={cat.id} value={cat.name}>
                       {cat.name}

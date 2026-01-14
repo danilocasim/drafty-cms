@@ -4,21 +4,19 @@ export const useMyAllPosts = (publishStatus, modifiedPost, token) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     async function getUser() {
       setLoading(true);
       try {
-        const response = await fetch(
-          "http://localhost:8000/blog/v1/post/" + publishStatus,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token,
-            },
-            mode: "cors",
-          }
-        );
+        const response = await fetch(`${API_URL}/post/` + publishStatus, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          mode: "cors",
+        });
 
         if (!response.ok) {
           setPosts([]);

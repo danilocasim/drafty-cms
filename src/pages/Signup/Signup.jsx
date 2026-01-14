@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import style from "./Signup.module.css";
 import Input from "../../components/Input/Input";
-
 function Signup() {
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ function Signup() {
   function addUser(e) {
     e.preventDefault();
 
-    fetch("http://localhost:8000/blog/v1/signup", {
+    fetch(`${API_URL}/signup`, {
       headers: {
         "Content-Type": "application/json",
       },
