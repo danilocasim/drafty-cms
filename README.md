@@ -35,6 +35,7 @@
 * **Frontend:** React, CSS Modules, Vite
 * **State Management:** React Context
 * **API:** REST (consumes Drafty API backend)
+* **TextEditor:** TinyMCE 
 
 ---
 
