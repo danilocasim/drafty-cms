@@ -1,17 +1,94 @@
-# React + Vite
+# **Drafty Author Frontend**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Drafty Author Frontend** is the admin interface for content creators to manage blog posts. It interacts with the **Drafty API** backend for creating, editing, and deleting posts.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Table of Contents
 
-## Expanding the ESLint configuration
+* [Features](#features)
+* [Tech Stack](#tech-stack)
+* [API Integration](#api-integration)
+* [Setup & Installation](#setup--installation)
+* [Backend Reference](#backend-repository-drafty-api)
+* [Contributing](#contributing)
+* [License](#license)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# drafty-cms
+---
+
+## Features
+
+* Create, update, and delete posts
+* Manage categories (implicit via posts)
+* View comments and delete inappropriate ones
+* User authentication with JWT
+* Responsive dashboard layout
+
+---
+
+## Tech Stack
+
+* **Frontend:** React, CSS Modules, Vite
+* **State Management:** React Context
+* **API:** REST (consumes Drafty API backend)
+
+---
+
+## API Integration
+
+This frontend communicates with the **Drafty API** for authoring operations.
+
+Key endpoints used:
+
+* `POST /post` – Create new post
+* `PUT /post/:id` – Update post
+* `DELETE /post/:id` – Delete post
+* `GET /category` – Fetch categories
+* `GET /post/:id/comments` – Manage comments
+
+## **Backend Repository:** [Drafty API](https://github.com/danilocasim/drafty-api)
+
+---
+
+## Setup & Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone git@github.com:danilocasim/drafty-cms.git
+   cd drafty-cms
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables** (`.env`)
+
+   ```env
+   VITE_API_URL=https://drafty-api.vercel.app/blog/v1
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## Contributing
+
+Follow the same contribution guidelines as the Reader frontend.
+
+---
+
+## License
+
+MIT License – see [LICENSE](LICENSE) for details
