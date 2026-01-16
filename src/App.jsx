@@ -15,6 +15,7 @@ function App() {
     setUser(null);
     navigate("/");
   }
+
   return (
     <AuthContext value={{ user, token, logout }}>
       <div className={style.container}>

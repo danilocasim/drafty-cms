@@ -6,12 +6,13 @@ export const useLoginStatus = (token) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     async function getUser() {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:8000/blog/v1/auth", {
+        const response = await fetch(`${API_URL}/auth`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: token,
@@ -28,6 +29,7 @@ export const useLoginStatus = (token) => {
         const data = await response.json();
         setUser(data);
       } catch (error) {
+        navigate("/login");
         setError(error);
       } finally {
         setLoading(false);

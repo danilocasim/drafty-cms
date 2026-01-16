@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import style from "./Login.module.css";
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   function onChangeEmail(e) {
     setEmail(e.target.value);
@@ -16,7 +18,7 @@ function Login() {
 
   function login(e) {
     e.preventDefault();
-    fetch("http://localhost:8000/blog/v1/login", {
+    fetch(`${API_URL}/login`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -30,6 +32,9 @@ function Login() {
       .then((data) => {
         localStorage.setItem("token", "Beaerer " + data.token);
         navigate("/");
+      })
+      .catch((e) => {
+        console.log(e);
       });
   }
 

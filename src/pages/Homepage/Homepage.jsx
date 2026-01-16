@@ -9,6 +9,7 @@ function Homepage() {
   const { token } = useContext(AuthContext);
   const [user] = useLoginStatus(token);
   const [modifiedPost, setModifiedPost] = useState(null);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [publishStatus, setPublishStatus] = useState(true);
 
@@ -29,7 +30,7 @@ function Homepage() {
   }
 
   function changePublishStatus(postId) {
-    fetch(`http://localhost:8000/blog/v1/post/${postId}/publish`, {
+    fetch(`${API_URL}/post/${postId}/publish`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
@@ -44,7 +45,7 @@ function Homepage() {
   }
 
   function deletePost(postId) {
-    fetch("http://localhost:8000/blog/v1/post/" + postId, {
+    fetch(`${API_URL}/post/` + postId, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,

@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context";
 import Input from "../../components/Input/Input";
 import RadioBtn from "../../components/RadioBtn/RadioBtn";
@@ -10,6 +10,7 @@ function AddPostpage() {
   const { token, user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [publish, setPublish] = useState(false);
 
@@ -30,7 +31,7 @@ function AddPostpage() {
 
   function addPost(e) {
     e.preventDefault();
-    fetch("http://localhost:8000/blog/v1/post", {
+    fetch(`${API_URL}/post`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
@@ -112,7 +113,7 @@ function AddPostpage() {
         <label htmlFor='content'>Content</label>
         <ContentEditor
           editorRef={editorRef}
-          content={"<p>This is the initial value</p>"}
+          content={`<p>Hello pota</p>`}
         ></ContentEditor>
       </div>
 

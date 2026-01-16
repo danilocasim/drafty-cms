@@ -11,10 +11,9 @@ import { useGetComments } from "../../hooks/useGetComments";
 function Postpage() {
   const { token, user } = useContext(AuthContext);
   const { postId } = useParams();
-  const [post] = useCurrentPost(
-    `http://localhost:8000/blog/v1/post/${postId}`,
-    token
-  );
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const [post] = useCurrentPost(`${API_URL}/post/${postId}`, token);
   const [newComment, setNewComment] = useState(null);
   const [updatedComment, setUpdatedComment] = useState(null);
   const [deletedComment, setDeletedComment] = useState(null);
